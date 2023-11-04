@@ -10,6 +10,7 @@ RUN \
   apt-get install -y \
     ca-certificates \
     curl \
+    docker-ce-cli \
     golang \
     git \
     gnupg \
@@ -61,6 +62,9 @@ RUN \
     /tmp/* \
     /var/lib/apt/lists/* \
     /var/tmp/*
+
+RUN \
+
 
 # add local files
 COPY /root /
