@@ -10,12 +10,12 @@ RUN \
   apt-get install -y \
     ca-certificates \
     curl \
-    docker-ce-cli \
     golang \
     git \
     gnupg \
     jq \
     libatomic1 \
+    lsb-release \
     nano \
     net-tools \
     netcat \
@@ -54,7 +54,7 @@ RUN \
   curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
   NODE_MAJOR=20 && \
   echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list && \
-  apt-get update && sudo apt-get install nodejs -y && \
+  apt-get update && apt-get install nodejs -y && \
     echo "**** clean up ****" && \
   apt-get clean && \
   rm -rf \
@@ -64,7 +64,18 @@ RUN \
     /var/tmp/*
 
 RUN \
-
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
+  echo \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+      $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+  apt-get update && apt-get install docker-ce-cli -y && \
+    echo "**** clean up ****" && \
+  apt-get clean && \
+  rm -rf \
+    /config/* \
+    /tmp/* \
+    /var/lib/apt/lists/* \
+    /var/tmp/*
 
 # add local files
 COPY /root /
