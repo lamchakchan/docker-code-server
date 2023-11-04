@@ -43,12 +43,15 @@ RUN \
     /var/lib/apt/lists/* \
     /var/tmp/*
 
+# Oh My ZSH
+# https://github.com/deluan/zsh-in-docker
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.5/zsh-in-docker.sh)" -- \
 -t robbyrussell \
 -a 'CASE_SENSITIVE="true"' \
 -p https://github.com/zsh-users/zsh-autosuggestions \
 -p https://github.com/zsh-users/zsh-completions
 
+# NodeJS
 # https://deb.nodesource.com/
 RUN \
   curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
@@ -63,6 +66,7 @@ RUN \
     /var/lib/apt/lists/* \
     /var/tmp/*
 
+# Docker CLI
 RUN \
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
   echo \
